@@ -1,0 +1,1 @@
+ceci est mon template de categorie
