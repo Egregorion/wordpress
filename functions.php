@@ -1,7 +1,9 @@
 <?php 
 
 function montheme_setup() {
-    add_theme_support( 'post-thumbnails' );
+    add_theme_support('post-thumbnails');
+    add_theme_support('custom-logo');
+    register_nav_menu('main', 'menu_principal');
 }
 
 function mon_theme_scripts() {
@@ -11,7 +13,7 @@ function mon_theme_scripts() {
 }
 
 function mon_theme_custom_types() {
-    register_post_type('boardgame', [
+    register_post_type('boardgames', [
         'labels' => [
             'name' => 'Boardgames',
             'singular_name' => 'Boardgame'
@@ -21,10 +23,38 @@ function mon_theme_custom_types() {
         'menu_icon' =>'dashicons-buddicons-activity',
         'supports' => ['title', 'editor', 'thumbnail'],
         'show_in_rest' => true,
-        'has_archive' => true
+        'has_archive' => true,
+        'taxonomies' => ['gamecat'],
     ]);
+}
+
+function montheme_custom_taxonomies() {
+    register_taxonomy('gamecat','boardgames', [
+        'labels' => [
+            'name' => 'Gamecats',
+            'singular_name' => 'Gamecat'
+        ],
+        'public' => true,
+        'hierarchical' => true,
+        'show_admin_column' => true,
+        'show_in_rest' => true,
+        'default_term' => 'Uncategorised'
+    ]);
+}
+
+function montheme_menu_cls($classes){
+    $classes[] = "nav-item";
+    return $classes;
+}
+
+function montheme_menu_link_atts($atts){
+    $atts['class'] = "nav-link";
+    return $atts;
 }
 
 add_action('after_setup_theme', 'montheme_setup');
 add_action('init', 'mon_theme_custom_types');
+add_action('init', 'montheme_custom_taxonomies');
 add_action('wp_enqueue_scripts', 'mon_theme_scripts');
+add_filter('nav_menu_css_class', 'montheme_menu_cls');
+add_filter('nav_menu_link_attributes', 'montheme_menu_link_atts');
