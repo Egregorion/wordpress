@@ -1,5 +1,7 @@
 <?php 
 
+require 'my_nav_walker.php';
+
 function montheme_setup() {
     add_theme_support('post-thumbnails');
     add_theme_support('custom-logo');
@@ -52,9 +54,29 @@ function montheme_menu_link_atts($atts){
     return $atts;
 }
 
+function monTheme_dropdown_class($classes) {
+    $classes[] = "dropdown-menu";
+    return $classes;
+}
+
+function monTheme_dropdown_menu_attr($atts, $items, $depth){
+    $dropdown = [52];
+    if(in_array($items->ID, $dropdown)){
+        $atts['class'] = "nav-link dropdown-toggle";
+        $atts['id'] = "navbarDropdown";
+        $atts['role'] = "button";
+        $atts['data-bs-toggle'] = "dropdown";
+        // Penser à ajouter aux éléments de sous menu dans l'admin la classe dropdown-item
+    }
+    return $atts;
+}
+
+
 add_action('after_setup_theme', 'montheme_setup');
 add_action('init', 'mon_theme_custom_types');
 add_action('init', 'montheme_custom_taxonomies');
 add_action('wp_enqueue_scripts', 'mon_theme_scripts');
 add_filter('nav_menu_css_class', 'montheme_menu_cls');
+add_filter('nav_menu_submenu_css_class', 'monTheme_dropdown_class');
 add_filter('nav_menu_link_attributes', 'montheme_menu_link_atts');
+add_filter('nav_menu_link_attributes', 'monTheme_dropdown_menu_attr',10, 3 );

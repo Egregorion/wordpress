@@ -1,4 +1,6 @@
-<?php wp_head(); ?>
+<?php wp_head();
+
+$walker = new myNavWalker; ?>
 
 <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
   <div class="container-fluid">
@@ -13,7 +15,8 @@
     <?php wp_nav_menu([
       'menu' => "main",
       'container' => false,
-      'menu_class' => 'navbar-nav me-auto mb-2 mb-lg-0'
+      'menu_class' => 'navbar-nav me-auto mb-2 mb-lg-0',
+      'walker' => $walker
     ]); ?> 
     </div>
   </div>

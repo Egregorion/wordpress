@@ -1,6 +1,7 @@
 <?php 
 // si on souhaite afficher autre chose que ce qui est prévu par le template de Wordpress, on peut avoir recours à des requêtes personnnalisées
 $boardgames = new WP_Query([
+    'post_type' => 'boardgames'
 ]);
 
 
